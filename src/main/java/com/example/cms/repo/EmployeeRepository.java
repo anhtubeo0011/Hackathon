@@ -10,6 +10,4 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee,Long> {
   @Query("SELECT id FROM Employee WHERE name = :name")
   Long findByName(@Param(value = "name") String name);
-
-  @
 }
