@@ -3,6 +3,7 @@ package com.example.cms.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -22,11 +23,11 @@ public class Project {
 
   @Temporal(TemporalType.DATE)
   @Column(name = "START_DATE")
-  private Date startDate;
+  private LocalDate startDate;
 
   @Temporal(TemporalType.DATE)
   @Column(name = "END_DATE")
-  private Date endDate;
+  private LocalDate endDate;
 
   @Column(name = "DESCRIPTION")
   private String description;

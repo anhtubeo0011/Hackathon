@@ -91,7 +91,7 @@ public class TaskService {
     dto.setName(employee.getName());
     dto.setMail(employee.getMail());
     dto.setStrength(employee.getStrength());
-    dto.setWeakness(employee.getWeakness());
+//    dto.setWeakness(employee.getWeakness());
     return dto;
   }
 

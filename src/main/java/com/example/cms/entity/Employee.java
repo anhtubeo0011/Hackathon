@@ -4,6 +4,8 @@ import com.example.cms.util.JsonConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,9 +26,9 @@ public class Employee {
 
   @Column(name = "STRENGTH", columnDefinition = "VARCHAR2(4000)")
   @Convert(converter = JsonConverter.StrengthConverter.class)
-  private Strength strength;
+  private List<Strength> strength;
 
-  @Column(name = "WEAKNESS", columnDefinition = "VARCHAR2(4000)")
-  @Convert(converter = JsonConverter.WeaknessConverter.class)
-  private Weakness weakness;
+//  @Column(name = "WEAKNESS", columnDefinition = "VARCHAR2(4000)")
+//  @Convert(converter = JsonConverter.WeaknessConverter.class)
+//  private Weakness weakness;
 }

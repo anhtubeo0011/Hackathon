@@ -26,7 +26,7 @@ public class EmployeeService {
     employee.setName(dto.getName());
     employee.setMail(dto.getMail());
     employee.setStrength(dto.getStrength());
-    employee.setWeakness(dto.getWeakness());
+//    employee.setWeakness(dto.getWeakness());
     Employee saved = employeeRepository.save(employee);
     return toDTO(saved);
   }
@@ -46,7 +46,7 @@ public class EmployeeService {
       employee.get().setName(dto.getName());
       employee.get().setMail(dto.getMail());
       employee.get().setStrength(dto.getStrength());
-      employee.get().setWeakness(dto.getWeakness());
+//      employee.get().setWeakness(dto.getWeakness());
       Employee updated = employeeRepository.save(employee.get());
       return toDTO(updated);
     }
@@ -65,7 +65,7 @@ public class EmployeeService {
     dto.setName(employee.getName());
     dto.setMail(employee.getMail());
     dto.setStrength(employee.getStrength());
-    dto.setWeakness(employee.getWeakness());
+//    dto.setWeakness(employee.getWeakness());
     dto.setTasks(taskRepository.findByEmployeeId(employee.getId()).stream().map(this::toDTO).collect(Collectors.toList()));
     return dto;
   }

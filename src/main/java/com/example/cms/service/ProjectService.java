@@ -97,7 +97,7 @@ public class ProjectService {
     dto.setName(employee.getName());
     dto.setMail(employee.getMail());
     dto.setStrength(employee.getStrength());
-    dto.setWeakness(employee.getWeakness());
+//    dto.setWeakness(employee.getWeakness());
     dto.setTasks(taskRepository.findByEmployeeId(employee.getId()).stream().map(this::toDTO).collect(Collectors.toList()));
     return dto;
   }

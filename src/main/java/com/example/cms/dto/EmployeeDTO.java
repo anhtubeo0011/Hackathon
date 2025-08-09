@@ -11,7 +11,7 @@ public class EmployeeDTO {
   private Long id;
   private String name;
   private String mail;
-  private Strength strength;
-  private Weakness weakness;
+  private List<Strength> strength;
+//  private Weakness weakness;
   private List<TaskDTO> tasks;
 }

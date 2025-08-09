@@ -7,49 +7,53 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 
+import java.util.List;
+
 public class JsonConverter {
 
-  private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-  @Converter
-  public static class StrengthConverter implements AttributeConverter<Strength, String> {
-    @Override
-    public String convertToDatabaseColumn(Strength strength) {
-      try {
-        return objectMapper.writeValueAsString(strength);
-      } catch (JsonProcessingException e) {
-        throw new IllegalArgumentException("Error converting Strength to JSON", e);
-      }
+    @Converter
+    public static class StrengthConverter implements AttributeConverter<List<Strength>, String> {
+        @Override
+        public String convertToDatabaseColumn(List<Strength> attribute) {
+            try {
+                return objectMapper.writeValueAsString(attribute);
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException("Error converting List<Strength> to JSON", e);
+            }
+        }
+
+        @Override
+        public List<Strength> convertToEntityAttribute(String json) {
+            try {
+                return json != null
+                        ? objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(List.class, Strength.class))
+                        : null;
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException("Error converting JSON to Strength", e);
+            }
+        }
     }
 
-    @Override
-    public Strength convertToEntityAttribute(String json) {
-      try {
-        return json != null ? objectMapper.readValue(json, Strength.class) : null;
-      } catch (JsonProcessingException e) {
-        throw new IllegalArgumentException("Error converting JSON to Strength", e);
-      }
-    }
-  }
+    @Converter
+    public static class WeaknessConverter implements AttributeConverter<Weakness, String> {
+        @Override
+        public String convertToDatabaseColumn(Weakness weakness) {
+            try {
+                return objectMapper.writeValueAsString(weakness);
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException("Error converting Weakness to JSON", e);
+            }
+        }
 
-  @Converter
-  public static class WeaknessConverter implements AttributeConverter<Weakness, String> {
-    @Override
-    public String convertToDatabaseColumn(Weakness weakness) {
-      try {
-        return objectMapper.writeValueAsString(weakness);
-      } catch (JsonProcessingException e) {
-        throw new IllegalArgumentException("Error converting Weakness to JSON", e);
-      }
+        @Override
+        public Weakness convertToEntityAttribute(String json) {
+            try {
+                return json != null ? objectMapper.readValue(json, Weakness.class) : null;
+            } catch (JsonProcessingException e) {
+                throw new IllegalArgumentException("Error converting JSON to Weakness", e);
+            }
+        }
     }
-
-    @Override
-    public Weakness convertToEntityAttribute(String json) {
-      try {
-        return json != null ? objectMapper.readValue(json, Weakness.class) : null;
-      } catch (JsonProcessingException e) {
-        throw new IllegalArgumentException("Error converting JSON to Weakness", e);
-      }
-    }
-  }
 }
