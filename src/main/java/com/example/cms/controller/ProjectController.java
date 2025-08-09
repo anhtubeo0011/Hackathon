@@ -1,7 +1,7 @@
 package com.example.cms.controller;
 
 import com.example.cms.dto.ProjectDTO;
-import com.example.cms.service.impl.ProjectServiceImpl;
+import com.example.cms.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class ProjectController {
 
   @Autowired
-  private ProjectServiceImpl service;
+  private ProjectService service;
 
   @PostMapping
   public ResponseEntity<ProjectDTO> create(@RequestBody ProjectDTO dto) {

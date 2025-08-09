@@ -1,7 +1,7 @@
 package com.example.cms.controller;
 
 import com.example.cms.dto.TaskDTO;
-import com.example.cms.service.impl.TaskServiceImpl;
+import com.example.cms.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.List;
 public class TaskController {
 
   @Autowired
-  private TaskServiceImpl service;
+  private TaskService service;
 
   @PostMapping
   public ResponseEntity<TaskDTO> create(@RequestBody TaskDTO dto) {

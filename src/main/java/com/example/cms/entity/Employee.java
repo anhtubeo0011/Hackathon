@@ -1,5 +1,6 @@
 package com.example.cms.entity;
 
+import com.example.cms.util.JsonConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +22,11 @@ public class Employee {
   @Column(name = "MAIL")
   private String mail;
 
-  @Column(name = "STRENGTH")
-  private String strength;
+  @Column(name = "STRENGTH", columnDefinition = "VARCHAR2(4000)")
+  @Convert(converter = JsonConverter.StrengthConverter.class)
+  private Strength strength;
 
-  @Column(name = "WEAKNESS")
-  private String weakness;
+  @Column(name = "WEAKNESS", columnDefinition = "VARCHAR2(4000)")
+  @Convert(converter = JsonConverter.WeaknessConverter.class)
+  private Weakness weakness;
 }

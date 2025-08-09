@@ -8,9 +8,9 @@ import java.util.Date;
 public class TaskDTO {
   private Long id;
   private Long projectId;
-  private String projectName;
+  private ProjectDTO projectDTO;
   private Long employeeId;
-  private String employeeName;
+  private EmployeeDTO employeeDTO;
   private Date startDate;
   private Date dueDate;
   private String status;
