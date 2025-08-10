@@ -31,4 +31,10 @@ public class Project {
 
   @Column(name = "DESCRIPTION")
   private String description;
+
+  @Column(name = "PM")
+  private String pm;
+
+  @Column(name = "STATUS")
+  private String status;
 }

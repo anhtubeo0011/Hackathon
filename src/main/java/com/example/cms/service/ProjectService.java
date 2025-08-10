@@ -29,6 +29,8 @@ public class ProjectService {
     project.setStartDate(dto.getStartDate());
     project.setEndDate(dto.getEndDate());
     project.setDescription(dto.getDescription());
+    project.setPm(dto.getPm());
+    project.setStatus(dto.getStatus());
     Project saved = projectRepository.save(project);
     return toDTO(saved);
   }
@@ -50,6 +52,8 @@ public class ProjectService {
       project.setStartDate(dto.getStartDate());
       project.setEndDate(dto.getEndDate());
       project.setDescription(dto.getDescription());
+      project.setPm(dto.getPm());
+      project.setStatus(dto.getStatus());
       Project updated = projectRepository.save(project);
       return toDTO(updated);
     }
@@ -69,36 +73,16 @@ public class ProjectService {
     dto.setStartDate(project.getStartDate());
     dto.setEndDate(project.getEndDate());
     dto.setDescription(project.getDescription());
-    List<TaskDTO> taskList = taskRepository.findByProjectId(project.getId()).stream().map(this::toDTO).collect(Collectors.toList());
-    for(TaskDTO taskDTO : taskList) {
-      taskDTO.setEmployeeDTO(toDTO(employeeRepository.findById(taskDTO.getEmployeeId()).get()));
+    dto.setPm(project.getPm());
+    dto.setStatus(project.getStatus());
+    List<Task> taskList = taskRepository.findByProjectId(project.getId());
+    if (taskList.isEmpty()) {
+      dto.setTeamSize(0);
+      dto.setTaskCount(0);
+    } else {
+      dto.setTeamSize(taskList.stream().map(Task::getEmployeeId).toList().stream().distinct().toList().size());
+      dto.setTaskCount(taskList.size());
     }
-    dto.setTasks(taskList);
-    return dto;
-  }
-
-  private TaskDTO toDTO(Task task) {
-    TaskDTO dto = new TaskDTO();
-    dto.setId(task.getId());
-    dto.setProjectId(task.getProjectId());
-    dto.setEmployeeId(task.getEmployeeId());
-    dto.setStartDate(task.getStartDate());
-    dto.setDueDate(task.getDueDate());
-    dto.setStatus(task.getStatus());
-    dto.setDescription(task.getDescription());
-    dto.setKind(task.getKind());
-    dto.setLevel(task.getStage());
-    return dto;
-  }
-
-  private EmployeeDTO toDTO(Employee employee) {
-    EmployeeDTO dto = new EmployeeDTO();
-    dto.setId(employee.getId());
-    dto.setName(employee.getName());
-    dto.setMail(employee.getMail());
-    dto.setStrength(employee.getStrength());
-//    dto.setWeakness(employee.getWeakness());
-    dto.setTasks(taskRepository.findByEmployeeId(employee.getId()).stream().map(this::toDTO).collect(Collectors.toList()));
     return dto;
   }
 }

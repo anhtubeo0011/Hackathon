@@ -24,11 +24,10 @@ public class Employee {
   @Column(name = "MAIL")
   private String mail;
 
+  @Column(name = "AVATAR")
+  private String avatar;
+
   @Column(name = "STRENGTH", columnDefinition = "VARCHAR2(4000)")
   @Convert(converter = JsonConverter.StrengthConverter.class)
   private List<Strength> strength;
-
-//  @Column(name = "WEAKNESS", columnDefinition = "VARCHAR2(4000)")
-//  @Convert(converter = JsonConverter.WeaknessConverter.class)
-//  private Weakness weakness;
 }

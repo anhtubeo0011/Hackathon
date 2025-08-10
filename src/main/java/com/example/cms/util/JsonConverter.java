@@ -1,7 +1,7 @@
 package com.example.cms.util;
 
+import com.example.cms.entity.Skill;
 import com.example.cms.entity.Strength;
-import com.example.cms.entity.Weakness;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.persistence.AttributeConverter;
@@ -37,22 +37,22 @@ public class JsonConverter {
     }
 
     @Converter
-    public static class WeaknessConverter implements AttributeConverter<Weakness, String> {
+    public static class SkillConverter implements AttributeConverter<Skill, String> {
         @Override
-        public String convertToDatabaseColumn(Weakness weakness) {
+        public String convertToDatabaseColumn(Skill skill) {
             try {
-                return objectMapper.writeValueAsString(weakness);
+                return objectMapper.writeValueAsString(skill);
             } catch (JsonProcessingException e) {
-                throw new IllegalArgumentException("Error converting Weakness to JSON", e);
+                throw new IllegalArgumentException("Error converting Skill to JSON", e);
             }
         }
 
         @Override
-        public Weakness convertToEntityAttribute(String json) {
+        public Skill convertToEntityAttribute(String json) {
             try {
-                return json != null ? objectMapper.readValue(json, Weakness.class) : null;
+                return json != null ? objectMapper.readValue(json, Skill.class) : null;
             } catch (JsonProcessingException e) {
-                throw new IllegalArgumentException("Error converting JSON to Weakness", e);
+                throw new IllegalArgumentException("Error converting JSON to Skill", e);
             }
         }
     }

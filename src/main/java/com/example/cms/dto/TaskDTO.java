@@ -4,18 +4,19 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class TaskDTO {
   private Long id;
-  private Long projectId;
-  private ProjectDTO projectDTO;
-  private Long employeeId;
-  private EmployeeDTO employeeDTO;
-  private LocalDate startDate;
-  private LocalDate dueDate;
-  private String status;
+  private String title;
   private String description;
-  private String kind;
-  private String level;
+  private Long projectId;
+  private Long assigneeId;
+  private String status;
+  private String priority;
+  private Integer estimateHours;
+  private LocalDate startDate;
+  private LocalDate deadline;
+  private String requiredSkills;
 }

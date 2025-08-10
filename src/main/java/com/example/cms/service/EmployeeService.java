@@ -1,8 +1,10 @@
 package com.example.cms.service;
 
+import com.example.cms.constant.Status;
 import com.example.cms.dto.EmployeeDTO;
 import com.example.cms.dto.TaskDTO;
 import com.example.cms.entity.Employee;
+import com.example.cms.entity.Project;
 import com.example.cms.entity.Task;
 import com.example.cms.repo.EmployeeRepository;
 import com.example.cms.repo.ProjectRepository;
@@ -25,8 +27,7 @@ public class EmployeeService {
     Employee employee = new Employee();
     employee.setName(dto.getName());
     employee.setMail(dto.getMail());
-    employee.setStrength(dto.getStrength());
-//    employee.setWeakness(dto.getWeakness());
+    employee.setStrength(dto.getSkills());
     Employee saved = employeeRepository.save(employee);
     return toDTO(saved);
   }
@@ -45,8 +46,8 @@ public class EmployeeService {
     if (employee.isPresent()) {
       employee.get().setName(dto.getName());
       employee.get().setMail(dto.getMail());
-      employee.get().setStrength(dto.getStrength());
-//      employee.get().setWeakness(dto.getWeakness());
+      employee.get().setStrength(dto.getSkills());
+      employee.get().setAvatar(dto.getAvatar());
       Employee updated = employeeRepository.save(employee.get());
       return toDTO(updated);
     }
@@ -64,23 +65,22 @@ public class EmployeeService {
     dto.setId(employee.getId());
     dto.setName(employee.getName());
     dto.setMail(employee.getMail());
-    dto.setStrength(employee.getStrength());
-//    dto.setWeakness(employee.getWeakness());
-    dto.setTasks(taskRepository.findByEmployeeId(employee.getId()).stream().map(this::toDTO).collect(Collectors.toList()));
-    return dto;
-  }
+    dto.setAvatar(employee.getAvatar());
+    dto.setMaxCapacity(40);
 
-  private TaskDTO toDTO(Task task) {
-    TaskDTO dto = new TaskDTO();
-    dto.setId(task.getId());
-    dto.setProjectId(task.getProjectId());
-    dto.setEmployeeId(task.getEmployeeId());
-    dto.setStartDate(task.getStartDate());
-    dto.setDueDate(task.getDueDate());
-    dto.setStatus(task.getStatus());
-    dto.setDescription(task.getDescription());
-    dto.setKind(task.getKind());
-    dto.setLevel(task.getStage());
+    List<Task> tasks = taskRepository.findByEmployeeId(employee.getId()).stream().sorted((o1,o2) -> o1.getStartDate().isBefore(o2.getStartDate()) ? -1 : 1).toList();
+    if (tasks.isEmpty()) {
+      dto.setCompletionRate(100f);
+    } else {
+      int numberOfTasks = tasks.size();
+      int numberOfCompletedTasks = tasks.stream().map(task -> Status.COMPLETED.name().equals(task.getStatus())).toList().size();
+      dto.setCompletionRate((float) numberOfCompletedTasks / numberOfTasks);
+      List<Long> projectIds = tasks.stream().map(Task::getProjectId).collect(Collectors.toList());
+      List<Project> projects = projectRepository.findAllById(projectIds);
+      dto.setActiveProjects((projects.stream().map(Project::getName)).toList());
+    }
+
+    dto.setSkills(employee.getStrength());
     return dto;
   }
 }

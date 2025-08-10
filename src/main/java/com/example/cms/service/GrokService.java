@@ -81,7 +81,7 @@ public class GrokService {
                     Bạn là một chuyên gia quản lý dự án phần mềm.
                     Nhiệm vụ của bạn: phân công các task cho các lập trình viên sao cho:
                     - Kỹ năng của lập trình viên (strength) phù hợp với yêu cầu task.
-                    - Tránh giao task trái với điểm yếu (weakness) của lập trình viên.
+                    - Tránh giao task trái với điểm yếu (skill) của lập trình viên.
                     - Cân nhắc loại task (kind) và độ khó (level) với năng lực hiện tại.
                     - Tránh giao quá nhiều task cùng lúc cho một người.
                     - Ưu tiên giao task đúng người để hoàn thành nhanh và chất lượng.

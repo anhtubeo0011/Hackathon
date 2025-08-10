@@ -1,5 +1,6 @@
 package com.example.cms.entity;
 
+import com.example.cms.util.JsonConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,6 +18,9 @@ public class Task {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
   private Long id;
+
+  @Column(name = "NAME")
+  private String name;
 
   @Column(name = "PROJECT_ID")
   private Long projectId;
@@ -38,9 +42,13 @@ public class Task {
   @Column(name = "DESCRIPTION")
   private String description;
 
-  @Column(name = "KIND")
-  private String kind;
+  @Column(name = "PRIORITY")
+  private String priority;
 
-  @Column(name = "STAGE")
-  private String stage;
+  @Column(name = "REQUIRED_SKILLS")
+//  @Convert(converter = JsonConverter.SkillConverter.class)
+  private String requiredSkill;
+
+  @Column(name = "ESTIMATE_HOURS")
+  private Integer estimateHours;
 }
