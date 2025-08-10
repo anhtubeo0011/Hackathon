@@ -18,5 +18,5 @@ public class EmployeeDTO {
   private Float avgTaskTime;
   private List<String> activeProjects;
   private List<Strength> skills;
-  private RecentActivity recentActivity;
+  private List<RecentActivity> recentActivity;
 }

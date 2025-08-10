@@ -4,6 +4,9 @@ import lombok.Data;
 
 @Data
 public class Strength {
+  private Integer id;
   private String name;
-  private String level;
+  private String category;
+  private Integer level;
+  private boolean verified;
 }

@@ -42,6 +42,10 @@ public class EmployeeService {
     return employeeRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
   }
 
+  public List<EmployeeDTO> findAll(String name, String mail, String skill, Long projectId) {
+    return employeeRepository.findAll(name, mail, skill, projectId).stream().map(this::toDTO).collect(Collectors.toList());
+  }
+
   public EmployeeDTO update(Long id, EmployeeDTO dto) {
     Optional<Employee> employee = employeeRepository.findById(id);
     if (employee.isPresent()) {
@@ -80,11 +84,16 @@ public class EmployeeService {
       List<Project> projects = projectRepository.findAllById(projectIds);
       dto.setActiveProjects((projects.stream().map(Project::getName)).toList());
       RecentActivity recentActivity = new RecentActivity();
+      recentActivity.setId(tasks.getFirst().getId());
       recentActivity.setType(tasks.getFirst().getStatus());
-      recentActivity.setStatus(tasks.getFirst().getStatus());
+      recentActivity.setDescription(tasks.getFirst().getDescription());
       recentActivity.setTimestamp(tasks.getFirst().getUpdateTime());
-      recentActivity.setUpdateTime(tasks.getFirst().getUpdateTime());
-      dto.setRecentActivity(recentActivity);
+      dto.setRecentActivity(List.of(recentActivity));
+    }
+
+    for(int i = 0; i < employee.getStrength().size(); i++) {
+      employee.getStrength().get(i).setId(i + 1);
+      employee.getStrength().get(i).setVerified(true);
     }
 
     dto.setSkills(employee.getStrength());

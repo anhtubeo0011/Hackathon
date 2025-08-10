@@ -8,6 +8,5 @@ public class DashboardDTO {
   private Float onTimeRate;
   private Integer overDueTasks;
   private Integer overloadedDevs;
-  private Float avgTaskCompletion;
   private Integer projectAtRisk;
 }

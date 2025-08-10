@@ -36,8 +36,8 @@ public class ProjectService {
     return toDTO(saved);
   }
 
-  public List<ProjectDTO> findAll() {
-    return projectRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+  public List<ProjectDTO> findAll(String name, String status, String pm) {
+    return projectRepository.findAll(name, status, pm).stream().map(this::toDTO).collect(Collectors.toList());
   }
 
   public ProjectDTO findById(Long id) {

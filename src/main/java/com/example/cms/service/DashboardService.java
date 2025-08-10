@@ -21,22 +21,23 @@ public class DashboardService {
 
   private final TaskRepository taskRepository;
   private final ProjectRepository projectRepository;
+  private final EmployeeRepository employeeRepository;
 
-  public DashboardDTO getDashboard() {
+  public DashboardDTO getDashboard(Long projectId, String status) {
     LocalDate today = LocalDate.now();
     LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
     LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
     DashboardDTO dashboardDTO = new DashboardDTO();
-    List<Task> tasks = taskRepository.findAll();
+    List<Task> tasks = taskRepository.findByProjectId(projectId);
 
-    Integer overloadEmployeeTasks = taskRepository.countOverloadEmployeeTasks(startOfWeek, endOfWeek);
-    Integer numberOfHighRiskProject = projectRepository.numberOfHighRiskLevels();
-
+    List<Employee> overloadEmployeeTasks = employeeRepository.countOverloadEmployeeTasks(startOfWeek, endOfWeek, projectId, status);
+    Integer numberOfHighRiskProject = projectRepository.numberOfHighRiskLevels(projectId, status);
+    Float completionRatePercent = projectRepository.completionRatePercent(projectId, status);
     dashboardDTO.setTotalTasks(tasks.size());
-    dashboardDTO.setOnTimeRate(projectRepository.completionRatePercent());
-    dashboardDTO.setOverDueTasks(taskRepository.countOverdueTasks());
-    dashboardDTO.setOverloadedDevs(overloadEmployeeTasks == null ? 0 : overloadEmployeeTasks);
+    dashboardDTO.setOnTimeRate(completionRatePercent == null ? 0 : completionRatePercent);
+    dashboardDTO.setOverDueTasks(taskRepository.countOverdueTasks(projectId, status));
+    dashboardDTO.setOverloadedDevs(overloadEmployeeTasks.size());
     dashboardDTO.setProjectAtRisk(numberOfHighRiskProject == null ? 0 : numberOfHighRiskProject);
     return dashboardDTO;
   }

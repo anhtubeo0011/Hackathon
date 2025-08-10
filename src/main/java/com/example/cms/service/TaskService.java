@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -43,8 +44,8 @@ public class TaskService {
     return toDTO(saved);
   }
 
-  public List<TaskDTO> findAll() {
-    return taskRepository.findAll().stream().map(this::toDTO).collect(Collectors.toList());
+  public List<TaskDTO> findAll(String name, String requiredSkills, Long projectId, Long employeeId, String status) {
+    return taskRepository.findAll(name, requiredSkills, projectId, employeeId, status).stream().map(this::toDTO).collect(Collectors.toList());
   }
 
   public TaskDTO findById(Long id) {

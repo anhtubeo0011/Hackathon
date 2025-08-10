@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/projects")
+@CrossOrigin(origins = "*")
 public class ProjectController {
 
   @Autowired
@@ -21,8 +22,10 @@ public class ProjectController {
   }
 
   @GetMapping
-  public ResponseEntity<List<ProjectDTO>> findAll() {
-    return ResponseEntity.ok(service.findAll());
+  public ResponseEntity<List<ProjectDTO>> findAll(@RequestParam(required = false ) String name,
+                                                  @RequestParam(required = false ) String status,
+                                                  @RequestParam(required = false ) String pm) {
+    return ResponseEntity.ok(service.findAll(name, status, pm));
   }
 
   @GetMapping("/{id}")

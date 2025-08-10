@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 
 @Data
 public class RecentActivity {
+  private Long id;
   private String type;
-  private String status;
+  private String description;
   private LocalDateTime timestamp;
-  private LocalDateTime updateTime;
 }

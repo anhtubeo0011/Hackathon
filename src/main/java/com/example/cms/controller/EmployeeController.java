@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/employees")
+@CrossOrigin(origins = "*")
 public class EmployeeController {
 
   @Autowired
@@ -21,8 +22,11 @@ public class EmployeeController {
   }
 
   @GetMapping
-  public ResponseEntity<List<EmployeeDTO>> findAll() {
-    return ResponseEntity.ok(service.findAll());
+  public ResponseEntity<List<EmployeeDTO>> findAll(@RequestParam(required = false) String name,
+                                                   @RequestParam(required = false) String mail,
+                                                   @RequestParam(required = false) String skill,
+                                                   @RequestParam(required = false) Long projectId) {
+    return ResponseEntity.ok(service.findAll(name, mail, skill, projectId));
   }
 
   @GetMapping("/{id}")

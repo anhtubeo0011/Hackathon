@@ -1,5 +1,6 @@
 package com.example.cms.repo;
 
+import com.example.cms.entity.Employee;
 import com.example.cms.entity.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,32 +12,37 @@ import java.util.List;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-  List<Task> findByProjectId(Long projectId);
-
-  List<Task> findByEmployeeId(Long employeeId);
+  @Query(
+      nativeQuery = true,
+      value =
+          "SELECT t.* FROM TASK t\n"
+              + "    WHERE (:name IS NULL OR t.NAME LIKE '%' || :name || '%')\n"
+              + "    AND (:requiredSkills IS NULL OR t.REQUIRED_SKILLS LIKE '%' || :requiredSkills || '%')\n"
+              + "    AND (:projectId IS NULL OR t.PROJECT_ID = :projectId)\n"
+              + "    AND (:employeeId IS NULL OR t.EMPLOYEE_ID = :employeeId)\n"
+              + "    AND (:status IS NULL OR t.STATUS = :status)")
+  List<Task> findAll(
+      @Param("name") String name,
+      @Param("requiredSkills") String requiredSkills,
+      @Param("projectId") Long projectId,
+      @Param("employeeId") Long employeeId,
+      @Param("status") String status);
 
   @Query(
+      nativeQuery = true,
       value =
-          "SELECT\n"
-              + "        count(*)\n"
-              + "    FROM\n"
-              + "        EMPLOYEE e\n"
-              + "    JOIN\n"
-              + "        TASK t\n"
-              + "            ON e.ID = t.EMPLOYEE_ID\n"
-              + "    WHERE\n"
-              + "        t.START_DATE >= TO_DATE(?, 'YYYY-MM-DD')\n"
-              + "        AND t.START_DATE < TO_DATE(?, 'YYYY-MM-DD')\n"
-              + "    HAVING\n"
-              + "        SUM(t.ESTIMATE_HOURS) > 40",
-      nativeQuery = true)
-  Integer countOverloadEmployeeTasks(
-      @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+          "SELECT t.* FROM TASK t\n" + "WHERE (:projectId IS NULL OR t.PROJECT_ID = :projectId)")
+  List<Task> findByProjectId(@Param("projectId") Long projectId);
+
+  List<Task> findByEmployeeId(Long employeeId);
 
   @Query(
       nativeQuery = true,
       value =
           "SELECT COUNT(CASE WHEN t.STATUS != 'COMPLETED' AND t.DUE_DATE < SYSDATE THEN 1 END) AS OVERDUE_TASKS\n"
-              + "FROM TASK t")
-  int countOverdueTasks();
+              + "FROM TASK t\n"
+              + "         INNER JOIN PROJECT p ON t.PROJECT_ID = p.ID\n"
+              + "WHERE (:projectId IS NULL OR p.ID = :projectId)\n"
+              + "  AND (:status IS NULL OR p.STATUS = :status)")
+  int countOverdueTasks(@Param("projectId") Long projectId, @Param("status") String status);
 }

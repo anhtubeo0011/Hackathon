@@ -3,6 +3,7 @@ package com.example.cms.controller;
 import com.example.cms.dto.TaskDTO;
 import com.example.cms.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,10 +11,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@CrossOrigin(origins = "*")
 public class TaskController {
 
-  @Autowired
-  private TaskService service;
+  @Autowired private TaskService service;
 
   @PostMapping
   public ResponseEntity<TaskDTO> create(@RequestBody TaskDTO dto) {
@@ -21,8 +22,13 @@ public class TaskController {
   }
 
   @GetMapping
-  public ResponseEntity<List<TaskDTO>> findAll() {
-    return ResponseEntity.ok(service.findAll());
+  public ResponseEntity<List<TaskDTO>> findAll(
+      @RequestParam(required = false ) String name,
+      @RequestParam(required = false ) String requiredSkills,
+      @RequestParam(required = false ) Long projectId,
+      @RequestParam(required = false ) Long employeeId,
+      @RequestParam(required = false ) String status) {
+    return ResponseEntity.ok(service.findAll(name, requiredSkills, projectId, employeeId, status));
   }
 
   @GetMapping("/{id}")
