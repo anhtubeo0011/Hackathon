@@ -1,4 +1,4 @@
-package com.example.cms.config;
+package com.example.cms.configuration;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletResponse;

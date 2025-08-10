@@ -1,4 +1,4 @@
-package com.example.cms.config;
+package com.example.cms.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
