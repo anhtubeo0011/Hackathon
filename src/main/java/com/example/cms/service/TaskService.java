@@ -10,6 +10,8 @@ import com.example.cms.entity.Task;
 import com.example.cms.repo.EmployeeRepository;
 import com.example.cms.repo.ProjectRepository;
 import com.example.cms.repo.TaskRepository;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,6 +38,7 @@ public class TaskService {
     task.setStartDate(dto.getStartDate());
     task.setDueDate(dto.getDeadline());
     task.setRequiredSkill(dto.getRequiredSkills());
+    task.setUpdateTime(LocalDateTime.now());
     Task saved = taskRepository.save(task);
     return toDTO(saved);
   }
@@ -63,6 +66,7 @@ public class TaskService {
       task.setStartDate(dto.getStartDate());
       task.setDueDate(dto.getDeadline());
       task.setRequiredSkill(dto.getRequiredSkills());
+      task.setUpdateTime(LocalDateTime.now());
       Task updated = taskRepository.save(task);
       return toDTO(updated);
     }
@@ -87,6 +91,7 @@ public class TaskService {
     dto.setStartDate(task.getStartDate());
     dto.setDeadline(task.getDueDate());
     dto.setRequiredSkills(task.getRequiredSkill());
+    dto.setUpdateTime(task.getUpdateTime());
     return dto;
   }
 }

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -51,4 +52,7 @@ public class Task {
 
   @Column(name = "ESTIMATE_HOURS")
   private Integer estimateHours;
+
+  @Column(name = "UPDATE_TIME")
+  private LocalDateTime updateTime;
 }

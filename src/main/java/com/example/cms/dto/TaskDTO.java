@@ -3,6 +3,7 @@ package com.example.cms.dto;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -19,4 +20,5 @@ public class TaskDTO {
   private LocalDate startDate;
   private LocalDate deadline;
   private String requiredSkills;
+  private LocalDateTime updateTime;
 }

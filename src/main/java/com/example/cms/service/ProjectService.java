@@ -1,5 +1,6 @@
 package com.example.cms.service;
 
+import com.example.cms.constant.Status;
 import com.example.cms.dto.EmployeeDTO;
 import com.example.cms.dto.ProjectDTO;
 import com.example.cms.dto.TaskDTO;
@@ -82,7 +83,9 @@ public class ProjectService {
     } else {
       dto.setTeamSize(taskList.stream().map(Task::getEmployeeId).toList().stream().distinct().toList().size());
       dto.setTaskCount(taskList.size());
+      dto.setProgress((float) taskList.stream().filter(task -> Status.COMPLETED.name().equals(task.getStatus())).toList().size() / (float) taskList.size());
     }
+    dto.setRiskLevel(projectRepository.riskLevel(project.getId()));
     return dto;
   }
 }

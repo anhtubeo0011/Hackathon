@@ -2,6 +2,7 @@ package com.example.cms.service;
 
 import com.example.cms.constant.Status;
 import com.example.cms.dto.EmployeeDTO;
+import com.example.cms.dto.RecentActivity;
 import com.example.cms.dto.TaskDTO;
 import com.example.cms.entity.Employee;
 import com.example.cms.entity.Project;
@@ -73,11 +74,17 @@ public class EmployeeService {
       dto.setCompletionRate(100f);
     } else {
       int numberOfTasks = tasks.size();
-      int numberOfCompletedTasks = tasks.stream().map(task -> Status.COMPLETED.name().equals(task.getStatus())).toList().size();
+      int numberOfCompletedTasks = tasks.stream().filter(task -> Status.COMPLETED.name().equals(task.getStatus())).toList().size();
       dto.setCompletionRate((float) numberOfCompletedTasks / numberOfTasks);
       List<Long> projectIds = tasks.stream().map(Task::getProjectId).collect(Collectors.toList());
       List<Project> projects = projectRepository.findAllById(projectIds);
       dto.setActiveProjects((projects.stream().map(Project::getName)).toList());
+      RecentActivity recentActivity = new RecentActivity();
+      recentActivity.setType(tasks.getFirst().getStatus());
+      recentActivity.setStatus(tasks.getFirst().getStatus());
+      recentActivity.setTimestamp(tasks.getFirst().getUpdateTime());
+      recentActivity.setUpdateTime(tasks.getFirst().getUpdateTime());
+      dto.setRecentActivity(recentActivity);
     }
 
     dto.setSkills(employee.getStrength());
