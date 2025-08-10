@@ -16,6 +16,7 @@ public class EmployeeDTO {
   private Integer maxCapacity;
   private Float completionRate;
   private Float avgTaskTime;
+  private String status;
   private List<String> activeProjects;
   private List<Strength> skills;
   private List<RecentActivity> recentActivity;

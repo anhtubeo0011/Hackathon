@@ -45,4 +45,17 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
               + "WHERE (:projectId IS NULL OR p.ID = :projectId)\n"
               + "  AND (:status IS NULL OR p.STATUS = :status)")
   int countOverdueTasks(@Param("projectId") Long projectId, @Param("status") String status);
+
+  @Query(nativeQuery = true,
+  value = "SELECT\n" +
+      "    t.*\n" +
+      "FROM\n" +
+      "    EMPLOYEE e\n" +
+      "INNER JOIN\n" +
+      "    TASK t ON e.ID = t.EMPLOYEE_ID\n" +
+      "WHERE\n" +
+      "    t.START_DATE >= TO_DATE(:startDate, 'YYYY-MM-DD')  -- Ngày bắt đầu tuần\n" +
+      "    AND t.START_DATE < TO_DATE(:endDate, 'YYYY-MM-DD')  -- Ngày kết thúc tuần +1 (để bao quát hết tuần)\n" +
+      "    AND e.ID = :employeeId")
+  public List<Task> weeklyTasks(@Param("employeeId") Long employeeId, @Param("startDate")  LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

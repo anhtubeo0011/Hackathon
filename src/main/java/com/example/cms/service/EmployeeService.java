@@ -10,6 +10,10 @@ import com.example.cms.entity.Task;
 import com.example.cms.repo.EmployeeRepository;
 import com.example.cms.repo.ProjectRepository;
 import com.example.cms.repo.TaskRepository;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -97,6 +101,21 @@ public class EmployeeService {
     }
 
     dto.setSkills(employee.getStrength());
+
+    LocalDate today = LocalDate.now();
+    LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+    LocalDate endOfWeek = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
+
+    List<Task> taskList = taskRepository.weeklyTasks(employee.getId(), startOfWeek, endOfWeek);
+    int totalHours = taskList.stream().mapToInt(Task::getEstimateHours).sum();
+    if (totalHours < 40) {
+      dto.setStatus("AVAILABLE");
+    } else if (totalHours == 40) {
+      dto.setStatus("BUSY");
+    } else {
+      dto.setStatus("OVERLOADED");
+    }
+
     return dto;
   }
 }
