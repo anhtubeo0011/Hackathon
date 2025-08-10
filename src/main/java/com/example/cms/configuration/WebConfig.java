@@ -17,7 +17,7 @@ public class WebConfig {
             .allowedOrigins("*") // Cho phép tất cả origin (có thể thay * bằng ngrok domain cho an toàn hơn)
             .allowedMethods("*")
             .allowedHeaders("*")
-            .exposedHeaders("ngrok-skip-browser-warning");;
+            .exposedHeaders("ngrok-skip-browser-warning");
       }
     };
   }

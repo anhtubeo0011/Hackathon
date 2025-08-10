@@ -18,15 +18,17 @@ public class GrokController {
         this.grokService = grokService;
     }
 
+    // API này là call AI gợi ý cho project
     @PostMapping("/smart-segregate")
     public ResponseEntity<String> smartTaskSegregate(@RequestParam Long id) {
         String result = grokService.smartTaskSegregation(id);
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/task-manage")
-    public ResponseEntity<String> taskManage(@RequestBody SmartTaskRequest request) {
-        String result = grokService.taskManage(request);
+    // API này là call AI gợi ý cho task
+    @PostMapping("/task-suggestion")
+    public ResponseEntity<String> taskManage(@RequestParam Long id) {
+        String result = grokService.taskSuggestion(id);
         return ResponseEntity.ok(result);
     }
 }
