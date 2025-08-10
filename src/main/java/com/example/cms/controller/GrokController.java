@@ -18,9 +18,15 @@ public class GrokController {
         this.grokService = grokService;
     }
 
-    @PostMapping("/grok")
-    public ResponseEntity<String> getGrokResponse(@RequestBody SmartTaskRequest request) {
-        String result = grokService.smartTaskSegregation(request.getTaskDTOList(), request.getEmployeeDTOList());
+    @PostMapping("/smart-segregate")
+    public ResponseEntity<String> smartTaskSegregate(@RequestParam Long id) {
+        String result = grokService.smartTaskSegregation(id);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/task-manage")
+    public ResponseEntity<String> taskManage(@RequestBody SmartTaskRequest request) {
+        String result = grokService.taskManage(request);
         return ResponseEntity.ok(result);
     }
 }
