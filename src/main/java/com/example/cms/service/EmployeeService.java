@@ -3,14 +3,12 @@ package com.example.cms.service;
 import com.example.cms.constant.Status;
 import com.example.cms.dto.EmployeeDTO;
 import com.example.cms.dto.RecentActivity;
-import com.example.cms.dto.TaskDTO;
 import com.example.cms.entity.Employee;
 import com.example.cms.entity.Project;
 import com.example.cms.entity.Task;
 import com.example.cms.repo.EmployeeRepository;
 import com.example.cms.repo.ProjectRepository;
 import com.example.cms.repo.TaskRepository;
-
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
@@ -77,7 +75,7 @@ public class EmployeeService {
     dto.setAvatar(employee.getAvatar());
     dto.setMaxCapacity(40);
 
-    List<Task> tasks = taskRepository.findByEmployeeId(employee.getId()).stream().sorted((o1,o2) -> o1.getStartDate().isBefore(o2.getStartDate()) ? -1 : 1).toList();
+    List<Task> tasks = taskRepository.findByEmployeeId(employee.getId()).stream().filter(task -> task.getStartDate() != null).toList().stream().sorted((o1,o2) -> o1.getStartDate().isBefore(o2.getStartDate()) ? -1 : 1).toList();
     if (tasks.isEmpty()) {
       dto.setCompletionRate(100f);
     } else {

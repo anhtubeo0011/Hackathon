@@ -1,11 +1,8 @@
 package com.example.cms.dto;
 
-import lombok.Data;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
+import lombok.Data;
 
 @Data
 public class TaskDTO {
@@ -13,7 +10,9 @@ public class TaskDTO {
   private String title;
   private String description;
   private Long projectId;
+  private String projectName;
   private Long assigneeId;
+  private String assigneeName;
   private String status;
   private String priority;
   private Integer estimateHours;

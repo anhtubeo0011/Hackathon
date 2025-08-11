@@ -1,22 +1,15 @@
 package com.example.cms.service;
 
-import com.example.cms.dto.EmployeeDTO;
-import com.example.cms.dto.ProjectDTO;
 import com.example.cms.dto.TaskDTO;
-import com.example.cms.entity.Employee;
-import com.example.cms.entity.Project;
-import com.example.cms.entity.Skill;
 import com.example.cms.entity.Task;
 import com.example.cms.repo.EmployeeRepository;
 import com.example.cms.repo.ProjectRepository;
 import com.example.cms.repo.TaskRepository;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -59,8 +52,12 @@ public class TaskService {
       Task task = taskOptional.get();
       task.setName(dto.getTitle());
       task.setDescription(dto.getDescription());
-      task.setProjectId(projectRepository.findById(dto.getProjectId()).get().getId());
-      task.setEmployeeId(employeeRepository.findById(dto.getAssigneeId()).get().getId());
+      if (dto.getProjectId() != null) {
+        task.setProjectId(projectRepository.findById(dto.getProjectId()).get().getId());
+      }
+      if (dto.getAssigneeId() != null) {
+        task.setEmployeeId(employeeRepository.findById(dto.getAssigneeId()).get().getId());
+      }
       task.setStatus(dto.getStatus());
       task.setPriority(dto.getPriority());
       task.setEstimateHours(dto.getEstimateHours());
@@ -93,6 +90,13 @@ public class TaskService {
     dto.setDeadline(task.getDueDate());
     dto.setRequiredSkills(task.getRequiredSkill());
     dto.setUpdateTime(task.getUpdateTime());
+
+    if (task.getProjectId() != null) {
+      dto.setProjectName(projectRepository.findById(task.getProjectId()).get().getName());
+    }
+    if (task.getEmployeeId() != null) {
+      dto.setAssigneeName(employeeRepository.findById(task.getEmployeeId()).get().getName());
+    }
     return dto;
   }
 }

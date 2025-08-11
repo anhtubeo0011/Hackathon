@@ -2,12 +2,10 @@ package com.example.cms.controller;
 
 import com.example.cms.dto.TaskDTO;
 import com.example.cms.service.TaskService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -36,9 +34,9 @@ public class TaskController {
     return ResponseEntity.ok(service.findById(id));
   }
 
-  @PutMapping("/{id}")
-  public ResponseEntity<TaskDTO> update(@PathVariable Long id, @RequestBody TaskDTO dto) {
-    return ResponseEntity.ok(service.update(id, dto));
+  @PutMapping("")
+  public ResponseEntity<TaskDTO> update(@RequestBody TaskDTO dto) {
+    return ResponseEntity.ok(service.update(dto.getId(), dto));
   }
 
   @DeleteMapping("/{id}")
