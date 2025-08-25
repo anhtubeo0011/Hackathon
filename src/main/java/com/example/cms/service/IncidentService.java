@@ -1,24 +1,22 @@
 package com.example.cms.service;
 
-import com.example.cms.dto.IncidentDTO;
 import com.example.cms.dto.AIAdviceDTO;
+import com.example.cms.dto.IncidentDTO;
+import com.example.cms.entity.Developer;
 import com.example.cms.entity.Incident;
 import com.example.cms.entity.IncidentStatus;
 import com.example.cms.entity.Priority;
-import com.example.cms.entity.Developer;
-import com.example.cms.repository.IncidentRepository;
 import com.example.cms.repository.DeveloperRepository;
+import com.example.cms.repository.IncidentRepository;
+import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Arrays;
 
 @Service
 @Transactional
@@ -32,6 +30,9 @@ public class IncidentService {
 
     @Autowired
     private DocumentService documentService;
+
+    @Autowired
+    private GrokService grokService;
 
     public List<IncidentDTO> getAllIncidents() {
         return incidentRepository.findAll().stream()
@@ -145,8 +146,9 @@ public class IncidentService {
                 .collect(Collectors.toList());
         
         // Generate AI suggestion based on error type
-        String suggestion = generateAISuggestion(errorType);
-        
+//        String suggestion = generateAISuggestion(errorType);
+        String suggestion = grokService.incidentSuggestion(incidentId);
+
         // Generate confidence score (70-99%)
         int confidence = 70 + (int) (Math.random() * 30);
         
