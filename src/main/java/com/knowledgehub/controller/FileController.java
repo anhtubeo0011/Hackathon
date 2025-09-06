@@ -33,13 +33,13 @@ public class FileController {
         try {
             // Validate file
             if (file.isEmpty()) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Please select a file to upload"));
+                return ResponseEntity.badRequest().body(Map.of("error", "Xin hãy chọn file để upload"));
             }
 
             // Validate file type
             String contentType = file.getContentType();
             if (!isValidFileType(contentType)) {
-                return ResponseEntity.badRequest().body(Map.of("error", "Invalid file type"));
+                return ResponseEntity.badRequest().body(Map.of("error", "Loại file không được hỗ trợ: "));
             }
 
             // Create upload directory if it doesn't exist
@@ -67,7 +67,7 @@ public class FileController {
             return ResponseEntity.ok(response);
 
         } catch (IOException ex) {
-            return ResponseEntity.internalServerError().body(Map.of("error", "Could not store file"));
+            return ResponseEntity.internalServerError().body(Map.of("error", "Không thể lưu file"));
         }
     }
 

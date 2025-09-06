@@ -52,6 +52,16 @@ public class DocumentController {
             @RequestParam(required = false) String privacy,
             Authentication authentication) {
 
+        if ("newest".equals(sortBy) || "oldest".equals(sortBy)) {
+            sortBy = "createdAt";
+        }
+
+        if ("newest".equals(sortBy)) {
+            sortDir = "desc";
+        } else if ("oldest".equals(sortBy)) {
+            sortDir = "asc";
+        }
+
         User currentUser = (User) authentication.getPrincipal();
         Sort sort = sortDir.equalsIgnoreCase("desc") ? 
                    Sort.by(sortBy).descending() : 
